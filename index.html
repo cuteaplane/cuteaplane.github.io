@@ -1,84 +1,219 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>实时状态一览</title>
-    <style>
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: #fce4ec; /* 粉色背景 */
-            color: #4a4a4a; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            min-height: 100vh;
-            margin: 0;
-        }
-        .container { 
-            background-color: #ffffff; 
-            padding: 40px; 
-            border-radius: 20px; 
-            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.2); /* 甜心阴影 */
-            max-width: 450px; 
-            width: 90%;
-            border: 3px solid #ffb6c1; /* 浅粉边框 */
-        }
-        h1 { 
-            color: #ff69b4; /* 热门粉色 */
-            border-bottom: 2px dashed #ffb6c1; 
-            padding-bottom: 10px; 
-            margin-top: 0;
-        }
-        p { margin: 5px 0; }
-        .status-item { 
-            display: flex; 
-            justify-content: space-between; 
-            margin: 18px 0; 
-            padding: 12px; 
-            background-color: #fff0f5; /* 淡粉色块 */
-            border-radius: 8px;
-        }
-        .label { 
-            font-weight: bold; 
-            color: #87ceeb; /* 天空蓝 */
-        }
-        .value { 
-            font-style: italic; 
-            color: #3cb371; /* 翠绿色 */
-            text-align: right;
-            max-width: 60%;
-            overflow-wrap: break-word;
-        }
-        /* 样式化脚本中加入的 Markdown 粗体标记 */
-        .value strong {
-            font-weight: bold;
-            color: #ff69b4; /* 强调重要信息 */
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>实时状态一览</title>
+  <style>
+    :root{
+      --bg: #fff8fb;
+      --card: #ffffff;
+      --accent: #ff6fa3;
+      --muted: #6b6b6b;
+      --tag: #7cc4ff;
+      --ok: #2fb66b;
+      --border: #ffd7e6;
+      --shadow: 0 10px 25px rgba(255,111,153,0.12);
+      --radius: 14px;
+      --gap: 14px;
+      --maxw: 540px;
+      font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+    }
+
+    /* page */
+    html,body{
+      height:100%;
+      margin:0;
+      background: linear-gradient(180deg, var(--bg), #fff);
+      color:var(--muted);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    .wrap{
+      min-height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:32px;
+      box-sizing:border-box;
+    }
+
+    /* card */
+    .card{
+      width:100%;
+      max-width:var(--maxw);
+      background:var(--card);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      border:2px solid var(--border);
+      padding:22px;
+      box-sizing:border-box;
+    }
+
+    header{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-bottom:8px;
+    }
+
+    .logo{
+      width:56px;
+      height:56px;
+      flex:0 0 56px;
+      border-radius:10px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(135deg,#ffe9f2,#fff0f6);
+      border:1px solid rgba(255,180,195,0.6);
+      box-shadow:0 6px 18px rgba(255,111,153,0.06);
+    }
+
+    .title{
+      font-size:18px;
+      color:var(--accent);
+      margin:0;
+      line-height:1;
+    }
+
+    .subtitle{
+      margin:2px 0 0 0;
+      font-size:12px;
+      color:#9aa3ad;
+    }
+
+    /* meta */
+    .meta{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin:12px 0 18px 0;
+      font-size:13px;
+    }
+    .meta .time{
+      font-style:italic;
+      color:var(--muted);
+      max-width:70%;
+      overflow-wrap:break-word;
+    }
+
+    /* items */
+    .items{
+      display:flex;
+      flex-direction:column;
+      gap:var(--gap);
+    }
+
+    .item{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:12px 14px;
+      border-radius:10px;
+      background:#fff7fb;
+      box-shadow:inset 0 -1px 0 rgba(255,182,204,0.06);
+      border:1px solid rgba(255,200,214,0.6);
+    }
+
+    .label{
+      font-weight:600;
+      color:var(--tag);
+      font-size:13px;
+    }
+
+    .value{
+      text-align:right;
+      max-width:62%;
+      word-break:break-word;
+      color:var(--ok);
+      font-style:italic;
+      font-size:13px;
+    }
+
+    .value strong{ color:var(--accent); font-weight:700; font-style:normal; }
+
+    /* small helper row */
+    .foot{
+      margin-top:14px;
+      font-size:12px;
+      color:#a6a6a6;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+    }
+
+    /* subtle pulsing for "active" hint (reduced motion respected) */
+    @media (prefers-reduced-motion: no-preference) {
+      .logo {
+        animation: pop 2200ms ease-in-out infinite;
+      }
+      @keyframes pop {
+        0%,100% { transform: translateY(0) scale(1); }
+        50% { transform: translateY(-4px) scale(1.02); }
+      }
+    }
+
+    /* responsive tweaks */
+    @media (max-width:420px){
+      .card { padding:16px; border-radius:12px; }
+      .logo{width:48px;height:48px;flex:0 0 48px;}
+      .title{font-size:16px;}
+    }
+
+    /* visually-hidden for the salt div */
+    .sr-only{ position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>cuteaplane 貌似在摸鱼了</h1>
-        <p>最后更新：<span class="value">2025-12-07 02:41:23</span></p>
-        
-        <div class="status-item">
-            <span class="label">前台程序：</span>
-            <span class="value">**Microsoft Launcher**</span>
+  <div class="wrap">
+    <div class="card" role="region" aria-label="实时状态一览">
+      <header>
+        <div class="logo" aria-hidden="true">
+          <!-- cute little heart SVG -->
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 21s-7-4.6-9-7.2C-0.1 8.1 4.6 3 8.7 6.2 10.6 4.1 13.4 4.1 15.3 6.2 19.4 3 24.1 8.1 21 13.8 19 16.6 12 21 12 21z" fill="#ffd0e0" />
+          </svg>
         </div>
-        
-        <div class="status-item">
-            <span class="label">连接 WiFi：</span>
-            <span class="value">**ChinaNet-A378E8-5G
-d4**</span>
+        <div>
+          <h1 class="title">cuteaplane 貌似在摸鱼了</h1>
+          <div class="subtitle">实时状态 · 轻量展示</div>
+        </div>
+      </header>
+
+      <div class="meta">
+        <div></div>
+        <div class="time">最后更新：<span class="value" style="color:var(--muted); font-style:normal;">2025-12-07 02:43:30</span></div>
+      </div>
+
+      <div class="items">
+        <div class="item">
+          <div class="label">前台程序：</div>
+          <div class="value">**Termux**</div>
         </div>
 
-        <div class="status-item">
-            <span class="label">屏幕亮度：</span>
-            <span class="value">43/255 (**16%**)</span>
+        <div class="item">
+          <div class="label">连接 WiFi：</div>
+          <div class="value">**ChinaNet-A378E8-5G
+d4**</div>
         </div>
-        
+
+        <div class="item">
+          <div class="label">屏幕亮度：</div>
+          <div class="value">43/255 (**16%**)</div>
+        </div>
+      </div>
+
+      <div class="foot" aria-hidden="true">
+        <div>状态温馨提示：页面兼容 Chromium 80+</div>
+        <div style="opacity:0.9;font-style:italic">更新于 2025-12-07 02:43:30</div>
+      </div>
     </div>
-<div style="display:none;">Salt: 1765046483.0329058</div>
+  </div>
+
+  <!-- 隐藏盐值，保留原占位 -->
+  <div class="sr-only">Salt: 1765046610.6836877</div>
 </body>
 </html>
