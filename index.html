@@ -3,17 +3,18 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>cuteaplane实时状态一览</title>
+  <title>实时状态一览</title>
   <style>
     :root{
-      --bg: #fff8fb;
-      --card: #ffffff;
-      --accent: #ff6fa3;
+      /* === 蓝色主题变量 === */
+      --bg: #e8f4f9;        /* 页面背景 */
+      --card: #ffffff;      /* 卡片背景 */
+      --accent: #2196f3;    /* 强调色 / 标题色 (核心蓝) */
       --muted: #6b6b6b;
-      --tag: #7cc4ff;
-      --ok: #2fb66b;
-      --border: #ffd7e6;
-      --shadow: 0 10px 25px rgba(255,111,153,0.12);
+      --tag: #4a90e2;       /* 标签色 */
+      --ok: #03a9f4;        /* 数值颜色 */
+      --border: #b3e5fc;    /* 卡片边框 */
+      --shadow: 0 10px 25px rgba(33,150,243,0.12); /* 蓝色阴影 */
       --radius: 14px;
       --gap: 14px;
       --maxw: 540px;
@@ -58,6 +59,7 @@
       margin-bottom:8px;
     }
 
+    /* Logo 区域的样式也改成蓝色系 */
     .logo{
       width:56px;
       height:56px;
@@ -66,9 +68,10 @@
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      background:linear-gradient(135deg,#ffe9f2,#fff0f6);
-      border:1px solid rgba(255,180,195,0.6);
-      box-shadow:0 6px 18px rgba(255,111,153,0.06);
+      background:linear-gradient(135deg,#e3f2fd,#f5faff); /* 浅蓝渐变 */
+      border:1px solid rgba(144,202,249,0.6);
+      box-shadow:0 6px 18px rgba(33,150,243,0.06);
+      font-size:24px; /* 留给 emoji 或图标的位置 */
     }
 
     .title{
@@ -106,15 +109,16 @@
       gap:var(--gap);
     }
 
+    /* Item 区域背景也改成蓝色系 */
     .item{
       display:flex;
       justify-content:space-between;
       align-items:center;
       padding:12px 14px;
       border-radius:10px;
-      background:#fff7fb;
-      box-shadow:inset 0 -1px 0 rgba(255,182,204,0.06);
-      border:1px solid rgba(255,200,214,0.6);
+      background:#f5faff; /* 极浅蓝背景 */
+      box-shadow:inset 0 -1px 0 rgba(144,202,249,0.06);
+      border:1px solid rgba(179,229,252,0.6);
     }
 
     .label{
@@ -172,10 +176,7 @@
     <div class="card" role="region" aria-label="实时状态一览">
       <header>
         <div class="logo" aria-hidden="true">
-          <!-- cute little heart SVG -->
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M12 21s-7-4.6-9-7.2C-0.1 8.1 4.6 3 8.7 6.2 10.6 4.1 13.4 4.1 15.3 6.2 19.4 3 24.1 8.1 21 13.8 19 16.6 12 21 12 21z" fill="#ffd0e0" />
-          </svg>
+          💻
         </div>
         <div>
           <h1 class="title">cuteaplane 貌似在摸鱼了</h1>
@@ -185,13 +186,13 @@
 
       <div class="meta">
         <div></div>
-        <div class="time">最后更新：<span class="value" style="color:var(--muted); font-style:normal;">2025-12-07 12:02:58</span></div>
+        <div class="time">最后更新：<span class="value" style="color:var(--muted); font-style:normal;">2025-12-07 13:43:33</span></div>
       </div>
 
       <div class="items">
         <div class="item">
           <div class="label">前台程序：</div>
-          <div class="value">**Chrome**</div>
+          <div class="value">**Termux**</div>
         </div>
 
         <div class="item">
@@ -207,13 +208,12 @@ d4**</div>
       </div>
 
       <div class="foot" aria-hidden="true">
-        <div>AI写的前端，我也不知道哪来的❤️</div>
-        <div style="opacity:0.9;font-style:italic">更新于 2025-12-07 12:02:58</div>
+        <div>AI写的前端，现在是蓝色的💻</div>
+        <div style="opacity:0.9;font-style:italic">更新于 2025-12-07 13:43:33</div>
       </div>
     </div>
   </div>
 
-  <!-- 隐藏盐值，保留原占位 -->
-  <div class="sr-only">Salt: 1765080178.3486302</div>
+  <div class="sr-only">Salt: 1765086213.1385298</div>
 </body>
 </html>
